@@ -100,15 +100,14 @@ class ResizingIntSet
   end
 
   def resize!
-    @store += Array.new(num_buckets) {Array.new}
-    @store.each do |bucket|
+    old_store = @store.dup
+    @store = Array.new(2 * num_buckets) {Array.new}
+    @count = 0
+    old_store.each do |bucket|
       bucket.each do |el|
-        bucket.delete(el)
-        @count -= 1
         insert(el)
       end
     end
-    # p @store
   end
 
 end
